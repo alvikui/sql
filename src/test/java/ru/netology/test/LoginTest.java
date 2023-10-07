@@ -15,7 +15,6 @@ import static ru.netology.data.SQLHelper.cleanDatabase;
 
 public class LoginTest {
     LoginPage loginPage;
-    private LoginPage loginPage1;
 
     @AfterEach
     void tearDown() {
@@ -29,14 +28,14 @@ public class LoginTest {
 
     @BeforeEach
     void setUp() {
-        loginPage = open("http://localhost:9999", loginPage.getClass());
+        loginPage = open("http://localhost:9999", LoginPage.class);
     }
 
     @Test
      void shouldSuccessfulLogin() {
         var authInfo = DataHelper.getAuthInfoWithTestData();
         var verificationPage = loginPage.validLogin(authInfo);
-        verificationPage.verifyVerificationPageVisiblity();
+        verificationPage.verifyVerificationPageVisibility();
         var verificationCode = SQLHelper.getVerificationCode();
         verificationPage.validVerify(verificationCode.getCode());
     }
@@ -45,9 +44,9 @@ public class LoginTest {
     void shouldBlockUserAfterThreeInputInvalidPassword() {
         var authInfo = DataHelper.getAuthInfoWithTestData();
         var verificationPage = loginPage.validLogin(authInfo);
-        verificationPage.verifyVerificationPageVisiblity();
+        verificationPage.verifyVerificationPageVisibility();
         var verificationCode = DataHelper.generateRandomVerificationCode();
         verificationPage.verify(verificationCode.getCode());
-        verificationPage.verifyErrorNotification("Ошибка! \nНеверно указан код! Попробуйте еще раз.");
+        verificationPage.verifyErrorNotification("Ошибка! Неверно указан код! Попробуйте ещё раз.");
 }
 }
